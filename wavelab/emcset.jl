@@ -122,6 +122,10 @@ function initialize_front(s, kL, kR, Evan_type, func, compound_func)
         e_kl = kL
         e_kr = n - kR
 
+        # TODO:: Verify that this won't cause problems elsewhere (NOT in MATLAB code)
+        e_NL = 0
+        e_NR = 0
+
     elseif cmp(e_evans, "reg_reg_polar") == 0
         c_LA = func
         e_LA = c_LA
@@ -129,6 +133,10 @@ function initialize_front(s, kL, kR, Evan_type, func, compound_func)
         e_RA = c_RA
         e_kl = kL
         e_kr = kR
+
+        # TODO:: Verify that this won't cause problems elsewhere (NOT in MATLAB code)
+        e_NL = 0
+        e_NR = 0
 
     elseif cmp(e_evans, "adj_reg_polar") == 0
         c_LA = Aadj
@@ -138,6 +146,10 @@ function initialize_front(s, kL, kR, Evan_type, func, compound_func)
         e_kl = n - kL
         e_kr = kR
 
+        # TODO:: Verify that this won't cause problems elsewhere (NOT in MATLAB code)
+        e_NL = 0
+        e_NR = 0
+
     elseif cmp(e_evans, "reg_adj_compound") == 0
         c_LA = func
         e_LA = compound_func
@@ -146,6 +158,10 @@ function initialize_front(s, kL, kR, Evan_type, func, compound_func)
         e_kl = kL
         e_kr = kR
 
+        # TODO:: Verify that this won't cause problems elsewhere (NOT in MATLAB code)
+        e_NL = 0
+        e_NR = 0
+
     elseif cmp(e_evans, "adj_reg_compound") == 0
         c_LA = Aadj
         e_LA = Akadj
@@ -153,6 +169,10 @@ function initialize_front(s, kL, kR, Evan_type, func, compound_func)
         e_RA = compound_func
         e_kl = kL
         e_kr = kR
+
+        # TODO:: Verify that this won't cause problems elsewhere (NOT in MATLAB code)
+        e_NL = 0
+        e_NR = 0
 
     elseif cmp(e_evans, "reg_reg_cheby") == 0
         c_LA = func
@@ -192,8 +212,8 @@ function initialize_front(s, kL, kR, Evan_type, func, compound_func)
     # Dependent structure variables
     e_Li = [s.L 0]
     e_Ri = [s.R 0]
-    c_L = s_L
-    c_R = s_R
+    c_L = s.L
+    c_R = s.R
 
     #Create structures
     m = M(m_n, m_damping, m_method, m_options, m_ode_fun)

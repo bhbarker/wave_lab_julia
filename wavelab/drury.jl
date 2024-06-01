@@ -16,6 +16,8 @@ function drury(t, y, lambda, A, s, p, n, k, mu)
 
     # Compute Omega' and rho'
 
-    
+
     #TODO:: Modify return statement once function is complete
     return 0
+
+end
