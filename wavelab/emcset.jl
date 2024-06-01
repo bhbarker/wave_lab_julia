@@ -1,4 +1,5 @@
-
+include("Aadj.jl")
+include("Akadj.jl")
 
 # TODO:: Figure out a better name for this struct so that it makes more sense
 struct M
@@ -35,11 +36,14 @@ struct E
     LA
     kl
     kr
+    NL
+    NR
 end
 
 
+# TODO:: Fix the default arguments for func and compound_func to reflect MATLAB behavior
 
-function emcset(s, shock_type, elR, Evan_type = "default", func, compound_func)
+function emcset(s, shock_type, eLR, Evan_type = "default", func = "0", compound_func = "0")
     
     #     function [e,m,c] = emcset(shock_type,eL,eR,Evan_type)
     #
@@ -71,11 +75,15 @@ function emcset(s, shock_type, elR, Evan_type = "default", func, compound_func)
 
     # TODO:: Figure out how to make the func and compound_func default to A and Ak where those are files that are in the current directory or path like in MATLAB
 
-    if cmp(shock_type, 'front') == 0
+    if cmp(shock_type, "front") == 0
         e, m, c = initialize_front(s, eL, eR, Evan_type, func, compound_func)
 
 
+    
+    end
 
+    #TODO:: Modify return function when function is finished
+    return 0, 0, 0, 0
 end
 
 
@@ -83,7 +91,7 @@ function initialize_front(s, kL, kR, Evan_type, func, compound_func)
 
     n = kL + kR
 
-    if cmp(Evan_type, 'default') == 0
+    if cmp(Evan_type, "default") == 0
 
         if kL > n / 2
             e_evans = "adj_reg_polar"
@@ -104,7 +112,63 @@ function initialize_front(s, kL, kR, Evan_type, func, compound_func)
         c_LA = func
         e_LA = c_LA
         c_RA = Aadj
+        e_RA = c_RA
+        e_kl = kL
+        e_kr = n - kR
 
-    
+    elseif cmp(e_evans, "reg_reg_polar") == 0
+        c_LA = func
+        e_LA = c_LA
+        c_RA = func
+        e_RA = c_RA
+        e_kl = kL
+        e_kr = kR
+
+    elseif cmp(e_evans, "adj_reg_polar") == 0
+        c_LA = Aadj
+        e_LA = Aadj
+        c_RA = func
+        e_RA = func
+        e_kl = n - kL
+        e_kr = kR
+
+    elseif cmp(e_evans, "reg_adj_compound") == 0
+        c_LA = func
+        e_LA = compound_func
+        c_RA = Aadj
+        e_RA = Akadj
+        e_kl = kL
+        e_kr = kR
+
+    elseif cmp(e_evans, "adj_reg_compound") == 0
+        c_LA = Aadj
+        e_LA = Akadj
+        c_RA = func
+        e_RA = compound_func
+        e_kl = kL
+        e_kr = kR
+
+    elseif cmp(e_evans, "reg_reg_cheby") == 0
+        c_LA = func
+        e_LA = c_LA
+        c_RA = func
+        e_RA = c_RA
+        e_kl = kL
+        e_kr = kR
+        e_NL = 60
+        e_NR = 60
+
+    end
+
+    c_stats = "off"
+    c_refine = "off"
+    c_tol = 0.2
+    c_ksteps = 2^5
+    c_lambda_steps = 0
+    c_basisL = 
+    #TODO:: Modify return function when function is finished
+    return 0, 0, 0
+
+end
 
     
