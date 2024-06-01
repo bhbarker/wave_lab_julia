@@ -83,13 +83,16 @@ function emcset(s, shock_type, eLR, Evan_type = "default", func = "0", compound_
 
     if cmp(shock_type, "front") == 0
         e, m, c = initialize_front(s, eL, eR, Evan_type, func, compound_func)
-
+        new_s = Infin(s.I, s.R, s.L, func, compound_func)
+    
+    else
+        error("User must specify which type of traveling wave is being studied")
 
     
     end
 
     # TODO:: Modify return function when function is finished
-    return 0, 0, 0, 0
+    return new_s, e, m, c
 end
 
 

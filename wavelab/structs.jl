@@ -2,10 +2,12 @@
 
 # Numerical Infinity - typically denoted as s
 
-struct Infinity
+struct Infin
     I
     R
     L
+    A
+    Ak
 end
 
 # Parameters - typically denoted as p

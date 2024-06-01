@@ -11,7 +11,7 @@ p = Parameter(1, 0, "off")
 
 #Numerical Infinity
 
-s = Infinity(12, 12, -12)
+s = Infin(12, 12, -12, nothing, nothing)
 
 # set wavelab structures to local default values
 
