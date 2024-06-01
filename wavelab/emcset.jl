@@ -1,5 +1,8 @@
 include("Aadj.jl")
 include("Akadj.jl")
+include("analytic_basis.jl")
+include("evans.jl")
+include("projection.jl")
 
 # TODO:: Figure out a better name for this struct so that it makes more sense
 struct M
@@ -31,7 +34,7 @@ end
 
 
 # TODO:: Figure out a better name for this struct so that it makes more sense
-struct E
+struct E_struct
     evans
     LA
     kl
@@ -165,7 +168,15 @@ function initialize_front(s, kL, kR, Evan_type, func, compound_func)
     c_tol = 0.2
     c_ksteps = 2^5
     c_lambda_steps = 0
-    c_basisL = 
+    c_basisL = analytic_basis
+    c_basisR = analytic_basis
+    c_evans = evans
+
+    c_epsl = 0
+    c_epsr = 0
+    c_Lproj = projection2
+    c_Rproj = projection2
+
     #TODO:: Modify return function when function is finished
     return 0, 0, 0
 
