@@ -1,8 +1,11 @@
+using DifferentialEquations
+
 include("Aadj.jl")
 include("Akadj.jl")
 include("analytic_basis.jl")
 include("evans.jl")
 include("projection.jl")
+include("drury.jl")
 
 # TODO:: Figure out a better name for this struct so that it makes more sense
 struct M
@@ -27,7 +30,7 @@ struct C
     basisR
     evans
     epsl
-    espr
+    epsr
     Lproj
     Rproj
 end
@@ -85,21 +88,21 @@ function emcset(s, shock_type, eLR, Evan_type = "default", func = "0", compound_
     
     end
 
-    #TODO:: Modify return function when function is finished
+    # TODO:: Modify return function when function is finished
     return 0, 0, 0, 0
 end
 
 
 function initialize_front(s, kL, kR, Evan_type, func, compound_func)
 
-    n = kL + kR
+    m_n = kL + kR
 
     if cmp(Evan_type, "default") == 0
 
-        if kL > n / 2
+        if kL > m_n / 2
             e_evans = "adj_reg_polar"
 
-        elseif kL < n/2
+        elseif kL < m_n / 2
             e_evans = "reg_adj_polar"
 
         else
@@ -177,8 +180,29 @@ function initialize_front(s, kL, kR, Evan_type, func, compound_func)
     c_Lproj = projection2
     c_Rproj = projection2
 
-    #TODO:: Modify return function when function is finished
-    return 0, 0, 0
+    m_damping = 0
+    m_method = drury
+
+    # TODO:: Not sure what to do with the options parameters yet
+    m_options = 0
+
+    # TODO:: Decide which Julia solver would be best here, or if we should include functionality for the user to pick
+    m_ode_fun = QNDF
+
+    # Dependent structure variables
+    e_Li = [s.L 0]
+    e_Ri = [s.R 0]
+    c_L = s_L
+    c_R = s_R
+
+    #Create structures
+    m = M(m_n, m_damping, m_method, m_options, m_ode_fun)
+    c = C(c_LA, c_RA, c_stats, c_refine, c_tol, c_ksteps, c_lambda_steps, c_basisL, c_basisR, c_evans, c_epsl, c_epsr, c_Lproj, c_Rproj)
+    e = E_struct(e_evans, e_LA, e_kl, e_kr, e_NL, e_NR)
+
+
+    # TODO:: Modify return function when function is finished
+    return e, m, c
 
 end
 
