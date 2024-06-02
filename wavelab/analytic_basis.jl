@@ -1,5 +1,5 @@
 
-function analytic_basis(projection, x, preimage, s, p, A, posneg, eps, Q, p_old_in)
+function analytic_basis(projection, x, preimage, s, p, A, posneg, eps, Q = nothing, p_old_in = nothing)
     # Returns an analytic basis at specified infinity using the method of Kato.
     # 
     # Input "projection" is a function handle to the projection function to be
@@ -16,7 +16,8 @@ function analytic_basis(projection, x, preimage, s, p, A, posneg, eps, Q, p_old_
 
     iterations = size(preimage, 2)
 
-    p_old, Q1 = projection(A(x, preimage(1), s, p), posneg, eps)
+    println(typeof(A))
+    p_old, Q1 = projection(A(x, preimage[1], s, p), posneg, eps)
     n,k = size(Q1)
     out = zeros(n, k, iterations)
 

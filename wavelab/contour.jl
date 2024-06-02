@@ -23,7 +23,7 @@ function contour(c, s, p, m, e, pre_preimage)
     # can achieve relative error only evaluating the Evans function on the
     # additional point 3. Then the Evans function is not evaluated on points
     # 2, 5, and 6. Suppose now that even after evaluating the Evans function on
-    # all the preiamge points we don't meet relative tolerance requirements.
+    # all the preimage points we don't meet relative tolerance requirements.
     # Perhaps the region where we don't meet tolerance is only in one small
     # region. We don't want to slow the computation way down by computing the
     # Kato basis numerically on additional points on all of the contour. If we
@@ -61,7 +61,7 @@ function contour(c, s, p, m, e, pre_preimage)
     preimage = pre_preimage[pre_index]
 
     # Find the subset on which Evans function is initially evaluated
-    #lbasis, lproj = c.basisL(c.Lproj, c.L, preimage, s, p, c.LA, 1, c.epsl)
+    lbasis, lproj = c.basisL(c.Lproj, c.L, preimage, s, p, c.LA, 1, c.epsl)
 
     # TODO:: Modify return statement when function is complete
     return 0, 0

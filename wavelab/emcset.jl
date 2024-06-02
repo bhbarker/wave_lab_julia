@@ -11,7 +11,7 @@ include("structs.jl")
 
 # TODO:: Fix the default arguments for func and compound_func to reflect MATLAB behavior
 
-function emcset(s, shock_type, eLR, Evan_type = "default", func = "0", compound_func = "0")
+function emcset(s, shock_type, eLR, Evan_type = "default", func = nothing, compound_func = nothing)
     
     #     function [e,m,c] = emcset(shock_type,eL,eR,Evan_type)
     #
@@ -79,6 +79,7 @@ function initialize_front(s, kL, kR, Evan_type, func, compound_func)
         e_evans = Evan_type
     end
 
+    println(e_evans)
     if cmp(e_evans, "reg_adj_polar") == 0
         c_LA = func
         e_LA = c_LA
@@ -92,6 +93,7 @@ function initialize_front(s, kL, kR, Evan_type, func, compound_func)
         e_NR = 0
 
     elseif cmp(e_evans, "reg_reg_polar") == 0
+        println(func)
         c_LA = func
         e_LA = c_LA
         c_RA = func
