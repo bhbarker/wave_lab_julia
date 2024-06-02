@@ -12,7 +12,13 @@ function projection2(matrix, posneg, eps)
 
     # Uses Schur decomposition to get a basis for the generalized eigenspace
 
-    U, T = schur(matrix, "complex")
+    F = Schur{Complex}(schur(matrix))
+
+    U = F.vectors
+    T = F.Schur
+    E = F.values
+
+
 
     return 0,0 
 end
