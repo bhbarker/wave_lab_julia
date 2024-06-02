@@ -1,6 +1,7 @@
 include("../../wavelab/structs.jl")
 include("../../wavelab/emcset.jl")
 include("../../wavelab/semicirc2.jl")
+include("../../wavelab/contour.jl")
 
 # TODO::Is there a Beep off equivalent in Julia? Do we care enough to do it?
 
@@ -12,7 +13,7 @@ p = Parameter(1, 0, "off")
 
 #Numerical Infinity
 
-s = Infin(12, 12, -12, nothing, nothing)
+s = Infinity(12, 12, -12, nothing, nothing)
 
 # set wavelab structures to local default values
 
@@ -28,5 +29,12 @@ spread = 4
 zerodist = 1e-2
 
 preimage = semicirc2(circpnts, imagpnts, innerpnts, c.ksteps, r, spread, zerodist, c.lambda_steps)
+
+
+
+#Compute the Evans function
+
+halfw = contour(c, s, p, m, e, preimage)
+
 
 

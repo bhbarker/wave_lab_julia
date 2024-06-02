@@ -29,12 +29,6 @@ function semicirc2(circpnts, imagpnts, innerpnts, ksteps, r, spread, inner_radiu
     ln = LinRange(r^(1/spread), inner_radius^(1/spread), p2) .^ spread
     theta2 = LinRange(pi/2, 0, p3)
 
-    println(size(collect(r*exp.(1im * theta))))
-    println(size(ln[2:end]*1im))
-    println(size(collect(inner_radius*exp.(1im*theta2[2:end]))))
-
-
-
     preimage = vcat(r*exp.(1im * theta), ln[2:end]*1im, inner_radius*exp.(1im*theta2[2:end]))
 
     return preimage

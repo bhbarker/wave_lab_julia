@@ -6,45 +6,7 @@ include("analytic_basis.jl")
 include("evans.jl")
 include("projection.jl")
 include("drury.jl")
-
-# TODO:: Figure out a better name for this struct so that it makes more sense
-struct M
-    n
-    damping
-    method
-    options
-    ode_fun
-end
-
-
-# TODO:: Figure out a better name for this struct so that it makes more sense
-struct C
-    LA
-    RA
-    stats
-    refine
-    tol
-    ksteps
-    lambda_steps
-    basisL
-    basisR
-    evans
-    epsl
-    epsr
-    Lproj
-    Rproj
-end
-
-
-# TODO:: Figure out a better name for this struct so that it makes more sense
-struct E_struct
-    evans
-    LA
-    kl
-    kr
-    NL
-    NR
-end
+include("structs.jl")
 
 
 # TODO:: Fix the default arguments for func and compound_func to reflect MATLAB behavior
@@ -83,7 +45,7 @@ function emcset(s, shock_type, eLR, Evan_type = "default", func = "0", compound_
 
     if cmp(shock_type, "front") == 0
         e, m, c = initialize_front(s, eL, eR, Evan_type, func, compound_func)
-        new_s = Infin(s.I, s.R, s.L, func, compound_func)
+        new_s = Infinity(s.I, s.R, s.L, func, compound_func)
     
     else
         error("User must specify which type of traveling wave is being studied")
@@ -220,8 +182,8 @@ function initialize_front(s, kL, kR, Evan_type, func, compound_func)
 
     #Create structures
     m = M(m_n, m_damping, m_method, m_options, m_ode_fun)
-    c = C(c_LA, c_RA, c_stats, c_refine, c_tol, c_ksteps, c_lambda_steps, c_basisL, c_basisR, c_evans, c_epsl, c_epsr, c_Lproj, c_Rproj)
-    e = E_struct(e_evans, e_LA, e_kl, e_kr, e_NL, e_NR)
+    c = C(c_LA, c_RA, c_stats, c_refine, c_tol, c_ksteps, c_lambda_steps, c_basisL, c_basisR, c_evans, c_epsl, c_epsr, c_Lproj, c_Rproj, c_L, c_R)
+    e = E(e_evans, e_LA, e_kl, e_kr, e_NL, e_NR)
 
 
     # TODO:: Modify return function when function is finished
