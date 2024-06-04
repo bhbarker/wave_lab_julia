@@ -12,13 +12,50 @@ function projection2(matrix, posneg, eps)
 
     # Uses Schur decomposition to get a basis for the generalized eigenspace
 
+    println(matrix)
     F = Schur{Complex}(schur(matrix))
 
     U = F.vectors
     T = F.Schur
-    E = F.values
+
+    # TODO:: I am slightly concerned these eigs will not be in same order as the MATLAB code. Verify that this is not the case.
+    eigs = F.values
+
+    signed_eigs = posneg * real(eigs)
+    k = length(signed_eigs[signed_eigs .> eps])
+    FS = ordschur(F, signed_eigs .> eps)
+    US = FS.vectors
+
+    Q1 = US[:, 1:k]
+
+    F_neg = Schur{Complex}(schur(-matrix))
+    
+    U_neg = F.vectors
+    T_neg = F.Schur
+    eigs_neg = F.values
+
+    signed_eigs_neg = posneg * real(eigs_neg)
+    k_neg = length(signed_eigs_neg[signed_eigs_neg .> -eps])
+    FS_neg = ordschur(F_neg, signed_eigs_neg .> -eps)
+    US_neg = FS_neg.vectors
+
+    Q2 = US_neg[:, 1:k_neg]
+
+    R = [Q1 Q2]
+
+    println(Q1)
+    println(Q2)
+    println(R)
 
 
+    L = inv(R)
 
-    return 0,0 
+    P = zeros(size(matrix))
+
+    for i = 1:size(Q1,2)
+        P = P + R[:, i] * L[i, :]
+    end
+
+
+    return P, Q1
 end
